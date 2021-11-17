@@ -1,5 +1,5 @@
 <?php
-
+namespace Empresaempleado;
 abstract class Empleado {
 
     private $nombre;
@@ -113,7 +113,7 @@ class EmpleadoPorComision extends Empleado {
     public function setTarifa($tarifa) {
         $this->tarifa = $tarifa;
     }
-    
+
     public function getBase() {
         return $this->base;
     }
@@ -128,7 +128,7 @@ class EmpleadoPorComision extends Empleado {
     }
 
     public function ingresos() {
-        return ($this->base + $this->tarifa + $this->horas);
+        return ($this->base + $this->tarifa * $this->horas);
     }
 
 }
@@ -138,6 +138,31 @@ class PruebaPolimorf {
     static function calcular($emp) {
         return "Los ingresos de " . $emp->getNombre() . " son " . $emp->ingresos();
     }
+
 }
 
+class Empresa {
 
+    private $empresa = array();
+
+    public function addEmpleado($empleado) {
+        $this->empresa[] = $empleado;
+    }
+
+    public function listarEmpleados() {
+        $listado = "";
+        foreach ($this->empresa as $empleado) {
+            $listado .= "Está empleado " . $empleado->getNombre() . " " . $empleado->getApellido() . " con el NSS: " . $empleado->getNumeroSeguridadSocial() . "<br>";
+        }
+        return $listado;
+    }
+
+    public function sumaIngresos() {
+        $suma = 0;
+        foreach ($this->empresa as $empleado) {
+            $suma += $empleado->ingresos();
+        }
+        return $suma;
+    }
+
+}
